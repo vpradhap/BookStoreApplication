@@ -33,7 +33,7 @@ namespace BookStoreApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddTransient<IUserRL, UserRL>();
             services.AddTransient<IUserBL, UserBL>();
 
@@ -51,6 +51,12 @@ namespace BookStoreApplication
 
             services.AddTransient<IOrderBL, OrderBL>();
             services.AddTransient<IOrderRL, OrderRL>();
+
+            services.AddTransient<IFeedbackRL, FeedbackRL>();
+            services.AddTransient<IFeedbackBL, FeedbackBL>();
+
+            services.AddTransient<IAdminBL, AdminBL>();
+            services.AddTransient<IAdminRL, AdminRL>();
 
             services.AddSwaggerGen(c =>
             {
@@ -126,6 +132,11 @@ namespace BookStoreApplication
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
             app.UseRouting();
 

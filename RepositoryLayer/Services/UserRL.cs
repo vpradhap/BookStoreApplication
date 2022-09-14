@@ -109,6 +109,7 @@ namespace RepositoryLayer.Services
                 Subject = new ClaimsIdentity(
                 new Claim[]
                 {
+                        new Claim(ClaimTypes.Role, "User"),
                         new Claim(ClaimTypes.Email, emailID),
                         new Claim("UserId", userId.ToString())
                 }),
@@ -142,8 +143,8 @@ namespace RepositoryLayer.Services
                             var userId = Convert.ToInt32(reader["UserId"] == DBNull.Value ? default : reader["UserId"]);
                             var token = JwtMethod(emailId, userId);
                             MSMQ_Model msmq_Model = new MSMQ_Model();
-                            msmq_Model.sendData2Queue(token);
-                            return token;
+                            msmq_Model.sendData2Queue($"http://localhost:4200/resetpassword/{token}");
+                            return $"http://localhost:4200/resetpassword/{token}";
                         }
                     }
                     else

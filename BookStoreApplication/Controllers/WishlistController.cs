@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BookStoreApplication.Controllers
 {
-    [Authorize]
+    [Authorize(Roles =Role.User)]
     [Route("")]
     [ApiController]
     public class WishlistController : ControllerBase
